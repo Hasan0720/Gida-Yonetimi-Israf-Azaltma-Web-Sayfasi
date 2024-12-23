@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gıda Yönetim Sistemi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+
+    <!-- Sol Üst Menü Butonu -->
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+
+    <!-- Yan Menü -->
+    <div class="side-menu" id="sideMenu">
+        <ul>
+            <li><a href="anasayfa.html">Ana Sayfa</a></li>
+            <li><a href="gidaKaydi.html">Gıda Ekleme</a></li>
+            <li><a href="gidaGoruntuleme.html">Gıda Görüntüleme</a></li>
+            <li><a href="yemekTarifleri.html">Yemek Tarifleri</a></li>
+            <li><a href="rapor.html">Raporlar</a></li>
+        </ul>
+    </div>
+
+    <!-- Üst Kısım (Header) -->
+    <div class="w3-bar w3-large" style="background-color: #ea3125;">
+        <h2 style="color: white;">Gıda Yönetimi ve İsraf Azaltma Uygulaması</h2>
+    </div>
+
+    <!-- Gıda Kaydı -->
+    <div class="w3-container">
+        <h2>Ürün Ekle</h2>
+        <form id="food-form" class="w3-container w3-light-grey w3-padding-16">
+
+            <label for="food-name">Ürün Adı</label>
+            <input type="text" id="food-name" class="w3-input w3-border" placeholder="Ürün ismini giriniz." required>
+
+            <label for="food-categoryfilter">Ürün Kategorisi</label>
+            <select id="food-categoryfilter" class="w3-select w3-border" placeholder="Lütfen kategori seçimini yapınız."
+                required>
+                <option value="">Tüm Kategoriler</option>
+                <option value="Meyve - Sebze">Meyve - Sebze</option>
+                <option value="Et - Tavuk - Balık">Et - Tavuk - Balık</option>
+                <option value="Süt - Kahvaltılık">Süt Ürünleri ve Kahvaltılık</option>
+                <option value="Temel Gıda">Temel Gıda</option>
+                <option value="İçecek">İçecek</option>
+                <option value="Atıştırmalık">Atıştırmalık</option>
+                <option value="Temizlik Ürünleri">Temizlik Ürünleri</option>
+            </select>
+
+            <label for="food-amount">Miktar</label>
+            <input type="number" id="food-amount" class="w3-input w3-border" placeholder="Örn: 1 Litre" required>
+
+            <label for="food-unitfilter">Birim Seç</label>
+            <select id="food-unitfilter" class="w3-select w3-border" placeholder="Lütfen birim seçimini yapınız."
+                required>
+                <option value="">Tüm Birimler</option>
+                <option value="Adet">Adet</option>
+                <option value="Gram">Gram</option>
+                <option value="Mililitre">Mililitre</option>
+                <option value="Kilogram">Kilogram</option>
+                <option value="Litre">Litre</option>
+            </select>
+
+            <label for="food-expiry">Son Kullanma Tarihi</label>
+            <input type="date" id="food-expiry" class="w3-input w3-border" required>
+
+            <button type="button" class="w3-button w3-teal w3-margin-top" onclick="addFood()">Kaydet</button>
+        </form>
+    </div>
+
+    <!-- Alt Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="gidaKaydi.html" class="active">
+            <i class="w3-text-white">&#x1F4C3;</i>
+            <span>Gıda Ekleme</span>
+        </a>
+        <a href="gidaGoruntuleme.html">
+            <i class="w3-text-white">&#x1F441;</i>
+            <span>Gıda Görüntüleme</span>
+        </a>
+        <a href="anasayfa.html">
+            <i class="w3-text-white">&#x1F3E0;</i>
+            <span>Ana Sayfa</span>
+        </a>
+        <a href="yemekTarifleri.html">
+            <i class="w3-text-white">&#x1F35D;</i>
+            <span>Yemek Tarifleri</span>
+        </a>
+        <a href="rapor.html">
+            <i class="w3-text-white">&#x1F4CA;</i>
+            <span>Raporlar</span>
+        </a>
+    </div>
+
+    <script>
+        // Tarih alanına bugünden önce tarih girilmesini engelle
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Ay değeri 0'dan başlar, bu yüzden +1
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayDate = `${yyyy}-${mm}-${dd}`;
+
+            // Tarih input'una min değerini ayarla
+            const dateInput = document.getElementById("food-expiry");
+            dateInput.setAttribute("min", todayDate);
+
+            // Tarih değiştiğinde kontrol et
+            dateInput.addEventListener("change", function () {
+                const selectedDate = new Date(dateInput.value);
+                const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+                if (selectedDate < todayWithoutTime) {
+                    alert("Bugünün tarihinden önce bir tarih seçemezsiniz!");
+                    dateInput.value = ""; // Geçersiz tarihi temizle
+                }
+            });
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

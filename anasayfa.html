@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gıda Yönetim Sistemi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- FontAwesome ile zil simgesi ekle -->
+</head>
+
+<body>
+
+    <!-- Sol Üst Menü Butonu -->
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+
+    <!-- Yan Menü -->
+    <div class="side-menu" id="sideMenu">
+        <ul>
+            <li><a href="anasayfa.html">Ana Sayfa</a></li>
+            <li><a href="gidaKaydi.html">Gıda Ekleme</a></li>
+            <li><a href="gidaGoruntuleme.html">Gıda Görüntüleme</a></li>
+            <li><a href="yemekTarifleri.html">Yemek Tarifleri</a></li>
+            <li><a href="rapor.html">Raporlar</a></li>
+        </ul>
+    </div>
+
+    <!-- Üst Kısım (Header) -->
+    <div class="w3-bar w3-large" style="background-color: #ea3125;">
+        <h2 style="color: white;">Gıda Yönetimi ve İsraf Azaltma Uygulaması</h2>
+        <div id="notification-icon" onclick="showNotification()">
+            <i class="fa fa-bell"></i> <!-- Zil simgesi -->
+        </div>
+        <!-- Bildirim Mesajı -->
+        <div id="notification-message" class="w3-panel w3-green w3-padding w3-hide">
+            <p>Bildirim gönderilecektir.</p>
+        </div>
+    </div>
+
+    <!-- Stoktaki Ürünler Tablosu -->
+    <div class="w3-container" style="margin-bottom: 60px;">
+        <h2>Hatırlatıcı Tablo</h2>
+        <table class="w3-table w3-striped w3-bordered">
+            <thead>
+                <tr class="w3-light-grey">
+                    <th>Ürün Adı</th>
+                    <th>Kategori</th>
+                    <th>Miktar</th>
+                    <th>Birim</th>
+                    <th>Son Kullanma Tarihi</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <!-- Ürünler dinamik olarak eklenecek -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Arama Filtreleme Bölümü -->
+    <div class="w3-container-arama">
+        <form id="search-form" class="w3-container w3-light-grey w3-padding-16">
+            <label for="search-input">Ürün Ara</label>
+            <input type="text" id="search-input" class="w3-input w3-border" placeholder="Ürün adı...">
+
+            <!-- Ara butonu -->
+            <button type="button" class="w3-button w3-red w3-margin-top" onclick="searchProducts()">Ara</button>
+
+            <!-- Aramayı Temizle butonu -->
+            <button type="button" class="w3-button w3-red w3-margin-top" onclick="clearSearch()">Aramayı
+                Temizle</button>
+        </form>
+    </div>
+
+    <!-- Tarif Önerileri Kısmı -->
+    <div class="w3-container-tarif-önerileri">
+        <h2>Tarif Önerileri</h2>
+
+        <div class="card-navigation">
+            <strong><button class="arrow-button arrow-button-left" onclick="moveLeft()">&#10094;</button></strong>
+            <div class="card-container" id="recipe-cards">
+                <!-- Tarif 1 -->
+                <div class="card" id="card1">
+                    <h3>Kısır</h3>
+                    <p><strong>Malzemeler:</strong> Bulgur, domates, salatalık, yeşillik, nar ekşisi</p>
+                    <p><strong>Açıklama:</strong> Kısır, taze sebzelerle yapılan hafif ve sağlıklı bir yemek.</p>
+                    <p><strong>Pişirme Süresi:</strong> 15 dakika</p>
+                </div>
+
+                <!-- Tarif 2 -->
+                <div class="card" id="card2">
+                    <h3>Karnıbahar Çorbası</h3>
+                    <p><strong>Malzemeler:</strong> Karnıbahar, soğan, havuç, tavuk suyu</p>
+                    <p><strong>Açıklama:</strong> Vitamin deposu ve doyurucu bir çorba tarifi.</p>
+                    <p><strong>Pişirme Süresi:</strong> 30 dakika</p>
+                </div>
+
+                <!-- Tarif 3 -->
+                <div class="card" id="card3">
+                    <h3>Mercimek Köftesi</h3>
+                    <p><strong>Malzemeler:</strong> Mercimek, soğan, baharatlar, ince bulgur</p>
+                    <p><strong>Açıklama:</strong> Sağlıklı, lezzetli ve pratik bir atıştırmalık.</p>
+                    <p><strong>Pişirme Süresi:</strong> 20 dakika</p>
+                </div>
+            </div>
+            <strong><button class="arrow-button arrow-button-right" onclick="moveRight()">&#10095;</button></strong>
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Alt Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="gidaKaydi.html">
+            <i class="w3-text-white">&#x1F4C3;</i>
+            <span>Gıda Ekleme</span>
+        </a>
+        <a href="gidaGoruntuleme.html">
+            <i class="w3-text-white">&#x1F441;</i>
+            <span>Gıda Görüntüleme</span>
+        </a>
+        <a href="anasayfa.html" class="active">
+            <i class="w3-text-white">&#x1F3E0;</i>
+            <span>Ana Sayfa</span>
+        </a>
+        <a href="yemekTarifleri.html">
+            <i class="w3-text-white">&#x1F35D;</i>
+            <span>Yemek Tarifleri</span>
+        </a>
+        <a href="rapor.html">
+            <i class="w3-text-white">&#x1F4CA;</i>
+            <span>Raporlar</span>
+        </a>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        let currentCardIndex = 0;
+        const cards = document.querySelectorAll('.card');
+        const totalCards = cards.length;
+
+        // İlk kartı göster
+        showCard(currentCardIndex);
+
+        // Sağa kaydırma işlevi
+        function moveRight() {
+            currentCardIndex = (currentCardIndex + 1) % totalCards;
+            showCard(currentCardIndex);
+        }
+
+        // Sola kaydırma işlevi
+        function moveLeft() {
+            currentCardIndex = (currentCardIndex - 1 + totalCards) % totalCards;
+            showCard(currentCardIndex);
+        }
+
+        // Kartları gösterme işlevi
+        function showCard(index) {
+            // Tüm kartları gizle
+            cards.forEach(card => card.style.display = 'none');
+            // Geçerli kartı göster
+            cards[index].style.display = 'block';
+        }
+
+        // Mesaj bildirimi
+        function showNotification() {
+            const notificationMessage = document.getElementById("notification-message");
+
+            // Mesajı göster
+            notificationMessage.classList.remove("w3-hide");
+
+            // 2 saniye sonra mesajı gizle
+            setTimeout(function () {
+                notificationMessage.classList.add("w3-hide");
+            }, 2000);
+        }
+    </script>
+
+</body>
+
+</html>

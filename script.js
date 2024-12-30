@@ -1,11 +1,10 @@
 // Anasayfa
 // Örnek ürünler
 const products = [
-    { name: 'Süt', category: 'Süt - Kahvaltılık', amount: '1', unit: 'Litre', expiry: '2024-12-12' },
-    { name: 'Yoğurt', category: 'Süt - Kahvaltılık', amount: '500', unit: 'Gram', expiry: '2024-12-15' },
-    { name: 'Domates', category: 'Meyve - Sebze', amount: '2', unit: 'Kilogram', expiry: '2024-12-20' },
+    { name: 'Süt', category: 'Süt - Kahvaltılık', amount: '1', unit: 'Litre', expiry: '2024-12-31' },
+    { name: 'Yoğurt', category: 'Süt - Kahvaltılık', amount: '500', unit: 'Gram', expiry: '2025-01-03' },
+    { name: 'Domates', category: 'Meyve - Sebze', amount: '2', unit: 'Kilogram', expiry: '2025-01-04' },
     { name: 'Elma', category: 'Meyve - Sebze', amount: '1', unit: 'Kilogram', expiry: '2024-12-25' },
-    { name: 'Çikolatalı Gofret', category: 'Atıştırmalık', amount: '3', unit: 'Adet', expiry: '2024-12-25' },
 ];
 
 // Ürünleri tabloya ekleme
@@ -126,10 +125,7 @@ window.onload = function () {
     displayProducts(products);
 }
 
-
-
 // Gıda Ekleme Sayfası
-
 function addFood() {
     const name = document.getElementById("food-name").value.trim();
     const categoryfilter = document.getElementById("food-categoryfilter").value;
@@ -334,7 +330,7 @@ const consumptionWasteRateChart = new Chart(document.getElementById('consumption
             legend: { display: true },
             tooltip: {
                 callbacks: {
-                    label: function(tooltipItem) {
+                    label: function (tooltipItem) {
                         const percentage = (tooltipItem.raw / totalConsumed) * 100;
                         return `${tooltipItem.label}: ${tooltipItem.raw} (${percentage.toFixed(2)}%)`;
                     }
@@ -365,7 +361,20 @@ function toggleMenu() {
 function searchProducts() {
     var input = document.getElementById('search-input').value.toLowerCase(); // Kullanıcı girdisini al
     var cards = document.querySelectorAll('.card-yemekTarifleri'); // Tarif kartlarını al
+    var rows = document.querySelectorAll('#product-list tr') // Tablodaki tüm satırları seç
 
+    // Ana sayfadaki arama işlevi
+    rows.forEach(function (row) {
+        var productName = row.querySelector('td:first-child').textContent.toLowerCase(); // Ürün adını al (ilk hücre)
+        if (productName.includes(input)) {
+            row.style.display = ''; // Ürün adı arama metnini içeriyorsa satırı göster
+        }
+        else {
+            row.style.display = 'none'; // Ürün adı arama metnini içermiyorsa satırı gizle
+        }
+    }
+    );
+    // Yemek tarifleri sayfasındaki arama işlevi
     cards.forEach(function (card) {
         var title = card.querySelector('h3').textContent.toLowerCase(); // Her bir tarifin başlığını al
         if (title.includes(input)) {
@@ -379,5 +388,5 @@ function searchProducts() {
 function clearSearch() {
     var input = document.getElementById('search-input');
     input.value = ''; // Arama kutusunu temizle
-    searchProducts(); // Arama sonucu olarak tüm kartları göster
+    searchProducts(); // Arama sonucu olarak ana sayfada tablodaki tüm ürünleri, yemek tarifleri sayfasında tüm kartları göster
 }
